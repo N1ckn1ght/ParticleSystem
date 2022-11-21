@@ -1,6 +1,11 @@
 Vector = {}
 Vector.__index = Vector
 
+function math.map(value, imin, imax, omin, omax)
+    local scale = (omax - omin) / (imax - imin)
+    return omin + (value - imin) * scale
+end
+
 function Vector:create(x, y)
     local vector = {}
     setmetatable(vector, Vector)
@@ -36,7 +41,7 @@ end
 function Vector:norm()
     m = self:mag()
     if (m > 0) then
-        return self / m
+        self:div(m)
     end
 end
 
@@ -62,12 +67,19 @@ end
 
 function Vector:limit(max)
     if self:mag() > max then
-        norm = self:norm()
-        return norm * max
+        self:norm()
+        self:mul(max)
     end
-    return self
 end
 
 function Vector:copy()
     return Vector:create(self.x, self.y)
+end
+
+function Vector:heading()
+    return math.atan2(self.y, self.x)
+end
+
+function Vector:distTo(other)
+    return math.sqrt((other.x - self.x) * (other.x - self.x) + (other.y - self.y) * (other.y - self.y))
 end
