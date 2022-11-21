@@ -1,3 +1,4 @@
+---@diagnostic disable: deprecated
 Vector = {}
 Vector.__index = Vector
 
@@ -39,7 +40,7 @@ function Vector:mag()
 end
 
 function Vector:norm()
-    m = self:mag()
+    local m = self:mag()
     if (m > 0) then
         self:div(m)
     end
